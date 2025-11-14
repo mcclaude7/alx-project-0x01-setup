@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import Header from "../../components/layout/Header";
+import Footer from "../../components/layout/Footer";
 
 const Users: React.FC = () =>{
     return(
@@ -23,5 +23,15 @@ const Users: React.FC = () =>{
         </div>             
     );
 };
+
+export async function getStaticProps() {
+  const response = await fetch("https://jsonplaceholder.typicode.com/users")
+  const posts = await response.json()
+
+  return {
+    props: {
+      posts
+    }
+  }
+}
 export default Users;    
-// creating users     
