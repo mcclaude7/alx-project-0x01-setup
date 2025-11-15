@@ -1,21 +1,53 @@
-import React from "react";
+
+import { useState } from "react";
 import Header from "../../components/layout/Header";
 import Footer from "../../components/layout/Footer";
 import UserCard from "../../components/common/UserCard";
-import { UserProps } from "../../interfaces";
+import UserModal from "../../components/common/UserModal";
+import { UserProps, UserData } from "../../interfaces";
+
 
 interface UsersPageProps {
     posts: UserProps[];
 }
 
 const Users = ({posts}: UsersPageProps)=>{
-    return(
+    const [users, setUsers] = useState(posts);
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const handleAddUser = (newUser: UserData) => {
+        setUsers([...users, newUser]);
+        setModalOpen(false);
+    };
+    return( 
         <div>
             <Header />
-            <main className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {posts.map((user) =>(
+            <main>
+                <div  className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {posts.map((user) =>(
                     <UserCard key={user.id}{...user}/>
-                ))}
+                    ))}
+
+                </div>
+
+
+
+                <div className="flex justify-between items-center mx-auto px-36 mb-6">
+                    <h1 className="text-3xl font-semibold">Users</h1>
+                    <button onClick={() => setModalOpen(true)}
+                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    > Add User </button>
+                </div>
+
+                <div  className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {users.map((user) => (
+                         <UserCard key={user.id} {...user} />
+                         ))}
+                </div>
+                <UserModal
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(false)}
+                onSubmit={handleAddUser}/>
             </main>
             <Footer />
         </div>
@@ -51,8 +83,8 @@ export async function getStaticProps() {
 
   return {
     props: {
-      posts
-    }
-  }
+      posts,
+    },
+  };
 }
 export default Users;    
