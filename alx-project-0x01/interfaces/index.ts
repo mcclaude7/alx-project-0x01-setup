@@ -37,7 +37,13 @@ export interface Company {
 
 
 export interface UserProps {
-
+    id: number;
+    username: string;
+    email: string;
+    address: Address;
+    phone: string;
+    website: string;
+    company: Company;
 }
 export interface PostData {
   userId: number;
@@ -63,5 +69,5 @@ export interface UserData {
 export interface UserModalProps {
       isOpen: boolean;
       onClose: () => void;
-      onSubmit: (data: UserData) => void;
+      onSubmit: (post: UserProps) => void;
 }
